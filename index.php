@@ -13,14 +13,25 @@
         echo '<div class="row">';
         while($row = $zapytanie->fetch_array()) {
             echo '<div class="col-lg-4">';
-            foreach (pobierzZdjecia($row['index']) as $image) {
-                echo "<a href='img/$image'>";
-                echo "<img class='img-fluid' src='img/thumbs/$image'>";
-                echo "</a>";
+            $id = $row['id'];
+
+            //zdjecie
+            $index = $row['index'];
+            $images = pobierzZdjecia($index);
+            if(!empty($images)) {
+                $image = $images[0];
             }
-            echo '<h2 class="h1">'.$row['nazwa'].'</strong></h2>';
+            else {
+                $image ='img/no-photo.jpg';
+            }
+            echo "<img class='img-fluid' src='img/thumbs/$image'>";
+
+            //nazwa
+            echo "<a href=produkt.php?produkt_id=$id>";
+            echo '<h2 class="h1">'.$row['nazwa'].'</h2>';
+            echo "</a>";
+            //cena
             echo '<h4>'.$row['cena'].' zł</h4>';
-            echo '<p>'.$row['opis'].'</p>';
             echo '</div>';
         }
 
@@ -31,18 +42,7 @@
     else
         $_GET['katId'] = null;
 
-    function pobierzZdjecia($index) {
-        $images = array();
 
-        //P01-x
-        for ($i=0;$i<10;$i++) {
-            $filename = $index."-".$i.".jpg";
-            $sciazkaZdjecia = "img/$filename";
-            if (file_exists($sciazkaZdjecia))
-                $images[] = $filename;
-        }
-        return $images;
-    }
 
     pokazKategorie($_GET['katId']);
     require_once ('footer.php');
