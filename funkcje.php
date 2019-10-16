@@ -1,4 +1,6 @@
 <?php
+    define('SESSION_COOKIE', 'cookiesklep');
+    define('SESSION_ID_LENGHT',40);
     function pobierzZdjecia($index) {
     $images = array();
 
